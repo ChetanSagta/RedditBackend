@@ -1,10 +1,7 @@
 package app.helpers;
 
 import app.dto.ErrorDTO;
-import app.exceptions.EmailAlreadyExist;
-import app.exceptions.InvalidCredentialsSupplied;
-import app.exceptions.UserAlreadyExists;
-import app.exceptions.UserDoesNotExistException;
+import app.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,5 +33,12 @@ public class ApplicationExceptionHandler {
     ErrorDTO errorDTO = new ErrorDTO(HttpStatus.NOT_ACCEPTABLE, ex.getMessage());
     return new ResponseEntity<>(errorDTO,errorDTO.getHttpStatus());
   }
+
+  @ExceptionHandler(AuthenticationHeaderMissingException.class)
+  public ResponseEntity<ErrorDTO> handleException(AuthenticationHeaderMissingException ex){
+    ErrorDTO errorDTO = new ErrorDTO(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    return new ResponseEntity<>(errorDTO, errorDTO.getHttpStatus());
+  }
+
 
 }

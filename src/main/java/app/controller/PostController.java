@@ -1,25 +1,31 @@
 package app.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import app.entities.Post;
+import app.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/post")
+@CrossOrigin
 public class PostController {
 
-    @PostMapping("/post/add")
-    public void addController(){
+    @Autowired
+    PostService postService;
 
+    @PostMapping("/add")
+    public void addPost(Post post){
+        postService.savePost(post);
     }
 
-    @GetMapping("/post/postId")
+    @GetMapping("/postId")
     public void getPostById(){
-
+        throw new UnsupportedOperationException();
     }
 
-    @GetMapping("/post/getAll")
+    @GetMapping("/getAll")
     public void getAllPosts(){
-
+        throw new UnsupportedOperationException();
     }
 
 }

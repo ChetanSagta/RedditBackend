@@ -10,14 +10,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1")
 @Log4j2
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
 
   @Autowired
@@ -36,6 +34,11 @@ public class LoginController {
   public ResponseEntity signup(@RequestBody SignUpDTO signupDTO) throws UserAlreadyExists, EmailAlreadyExist {
     String jwtToken = loginService.signup(signupDTO);
     return new ResponseEntity<>(jwtToken,HttpStatus.OK);
+  }
+
+  @GetMapping("/uniqueUser")
+  public boolean isUniqueUser(String user){
+    return !loginService.doesUserExist(user);
   }
 
 }
