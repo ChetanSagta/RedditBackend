@@ -41,11 +41,6 @@ public class LoginService {
     return bCryptPasswordEncoder.encode(password);
   }
 
-  public void saveUser(User user) {
-    userRepo.save(user);
-  }
-
-
   public String login(LoginDTO loginDTO) throws InvalidCredentialsSupplied {
     String username = loginDTO.getUsername();
     String password = loginDTO.getPassword();
@@ -56,7 +51,7 @@ public class LoginService {
     return jwtHelper.generateToken(loginDTO.getUsername());
   }
 
-  public String signup(SignUpDTO signupDTO) throws UserAlreadyExists, EmailAlreadyExist {
+  public User signup(SignUpDTO signupDTO) throws UserAlreadyExists, EmailAlreadyExist {
     String username = signupDTO.getUsername();
     String email = signupDTO.getEmail();
     if (doesEmailExist(email)) {
@@ -65,16 +60,14 @@ public class LoginService {
     if (doesUserExist(username)) {
       throw new UserAlreadyExists("User already present");
     }
-    User user = new User();
-    user.setAdmin(false);
-    user.setUsername(signupDTO.getUsername());
-    user.setPassword(encodePassword(signupDTO.getPassword()));
-    user.setAvatar(signupDTO.getAvatar());
-    user.setCreatedOn(new Date());
-    user.setEmailId(signupDTO.getEmail());
-    userRepo.save(user);
-    JwtHelper jwtHelper = new JwtHelper();
-    return jwtHelper.generateToken(signupDTO.getUsername());
+    User tempUser = new User();
+    tempUser.setAdmin(false);
+    tempUser.setUsername(signupDTO.getUsername());
+    tempUser.setPassword(encodePassword(signupDTO.getPassword()));
+    tempUser.setAvatar(signupDTO.getAvatar());
+    tempUser.setCreatedOn(new Date());
+    tempUser.setEmailId(signupDTO.getEmail());
+    return userRepo.save(tempUser);
   }
 
 

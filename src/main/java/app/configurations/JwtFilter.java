@@ -57,9 +57,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
   @Override
   public boolean shouldNotFilter(HttpServletRequest request){
-    String[] acceptableEndpoints = {"/v1/login/","/v1/signup/","/v1/uniqueUser"};
+    String[] acceptableEndpoints = {"/v1/login","/v1/signup","/v1/uniqueUser"};
     String path = request.getRequestURL().substring(21);
-    log.info("Path for Filter : " + path);
     for(String endpoint: acceptableEndpoints){
       Pattern pattern = Pattern.compile(endpoint);
       Matcher matcher = pattern.matcher(path);
