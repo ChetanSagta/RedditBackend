@@ -1,11 +1,9 @@
 package app.entities;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,13 +12,14 @@ public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  int postId;
-  int likes;
-  int dislikes;
-  String postedBy;
-  Date postedDate;
-  String title;
-  byte[] image;
-  String description;
-  String subredditName;
+  private int postId;
+  private int likes;
+  private int dislikes;
+  private String postedBy;
+  private Date postedDate;
+  private String title;
+  @Lob
+  private MultipartFile[] image;
+  private String description;
+  private String subredditName;
 }

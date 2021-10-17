@@ -19,16 +19,17 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  int userId;
+  private int userId;
   @Column(unique = true)
-  String username;
+  private String username;
   @Column(unique = true)
-  String emailId;
-  String password;
+  private String emailId;
+  private String password;
   @Lob
-  byte[] avatar;
-  Date createdOn;
-  boolean isAdmin;
+  private byte[] avatar;
+  private Date insTs;
+  private Date updTs;
+  private boolean isAdmin;
 
   @Override
   public boolean equals(Object o) {

@@ -65,7 +65,7 @@ public class LoginService {
     tempUser.setUsername(signupDTO.getUsername());
     tempUser.setPassword(encodePassword(signupDTO.getPassword()));
     tempUser.setAvatar(signupDTO.getAvatar());
-    tempUser.setCreatedOn(new Date());
+    tempUser.setInsTs(new Date());
     tempUser.setEmailId(signupDTO.getEmail());
     return userRepo.save(tempUser);
   }
