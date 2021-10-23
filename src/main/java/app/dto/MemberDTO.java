@@ -4,7 +4,7 @@ import app.entities.User;
 
 public class MemberDTO {
 
-  User user;
-  Role role;
+  private User user;
+  private Role role;
 
 }

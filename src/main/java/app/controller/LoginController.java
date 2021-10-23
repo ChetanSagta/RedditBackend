@@ -8,6 +8,7 @@ import app.exceptions.InvalidCredentialsSupplied;
 import app.exceptions.UserAlreadyExists;
 import app.helpers.JwtHelper;
 import app.service.LoginService;
+import app.service.PersonService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class LoginController {
 
   @Autowired
   LoginService loginService;
+
+  @Autowired
+  PersonService personService;
 
   @Autowired
   JwtHelper jwtHelper;
@@ -47,6 +51,7 @@ public class LoginController {
   public ResponseEntity signup(@RequestBody SignUpDTO signupDTO) throws UserAlreadyExists, EmailAlreadyExist {
     log.info("SignUpDto {}", signupDTO);
     User signedInUser = loginService.signup(signupDTO);
+    personService.savePerson(signupDTO);
     if(signedInUser!=null){
       return new ResponseEntity<>("User Signed Up Successfully",HttpStatus.OK);
     }

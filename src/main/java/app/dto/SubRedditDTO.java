@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SubRedditDTO {
-  List<MemberDTO> membersList;
-  Map<Post, Boolean> postList;
+  private List<MemberDTO> membersList;
+  private Map<Post, Boolean> postList;
 }

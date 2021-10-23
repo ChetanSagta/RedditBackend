@@ -1,11 +1,13 @@
 package app.configurations;
 
+import app.dto.LoggedInUser;
 import app.exceptions.AuthenticationHeaderMissingException;
-import app.exceptions.InvalidJwtTokenException;
 import app.helpers.JwtHelper;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -25,12 +27,15 @@ public class JwtFilter extends OncePerRequestFilter {
   @Autowired
   JwtHelper jwtHelper;
 
+  @Autowired
+  LoggedInUser loggedInUser;
+
   @SneakyThrows
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 
+    UserDetails user = null;
     String header = request.getHeader("Authorization");
-    log.info("Header : {}", header);
     if (header == null)
       throw new AuthenticationHeaderMissingException("Authentication Header Missing..Please use a valid JWT");
     if (!header.startsWith("Bearer ")) {
@@ -39,11 +44,18 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     String authToken = header.split(" ")[1].trim();
-    log.info("Token {} ", authToken);
 
-    UserDetails user = jwtHelper.validateToken(authToken);
+    try{
+      user = jwtHelper.validateToken(authToken);
+      loggedInUser.setUser(user.getUsername());
+    }
+    catch(ExpiredJwtException e){
+      //Todo: Fix this
+      response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token is Expired");
+      return ;
+    }
 
-    if (user == null) throw new InvalidJwtTokenException("Illegal Token Supplied");
+    if (user == null) response.sendError(HttpStatus.UNAUTHORIZED.value(),"Illegal Token Supplied");
 
     if (user.isEnabled()) {
       filterChain.doFilter(request, response);

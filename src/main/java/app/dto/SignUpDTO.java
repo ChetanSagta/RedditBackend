@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class SignUpDTO {
 
-  String username;
-  String email;
-  String password;
-  byte[] avatar;
+  private String username;
+  private String email;
+  private String password;
+  private byte[] avatar;
 
 }
