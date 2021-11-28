@@ -64,7 +64,6 @@ public class LoginService {
     tempUser.setAdmin(false);
     tempUser.setUsername(signupDTO.getUsername());
     tempUser.setPassword(encodePassword(signupDTO.getPassword()));
-    tempUser.setAvatar(signupDTO.getAvatar());
     tempUser.setInsTs(new Date());
     tempUser.setEmailId(signupDTO.getEmail());
 

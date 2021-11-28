@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommunityRepo extends JpaRepository<Community, Integer> {
   Community findCommunityByCommunityName(String name);
+
+//  List<String> findAllByMemberName(String user);
 }

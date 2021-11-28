@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -40,8 +41,12 @@ public class CommunityService {
     community.setCommunityType(communityDTO.getCommunityType());
     community.setCommunityName(communityDTO.getCommunityName());
     community.setInsTs(new Date());
-    community.setCreatedBy(person);
+    community.setPerson(person);
     communityRepo.save(community);
   }
 
+  public List<String> getSubscribedCommunities() {
+//    return communityRepo.findAllByMemberName(loggedInUser.getUser());
+    return null;
+  }
 }

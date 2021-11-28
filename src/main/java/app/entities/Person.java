@@ -6,8 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,11 +20,14 @@ import java.util.Objects;
 @Entity
 public class Person {
 
-  @Id
   private int personId;
+  @Id
+  @Column(length = 250)
   private String personName;
   private Date insTs;
   private Date updTs;
+  @Lob
+  private byte[] avatar;
 
   @Override
   public boolean equals(Object o) {

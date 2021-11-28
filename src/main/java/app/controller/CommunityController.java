@@ -36,8 +36,8 @@ public class CommunityController {
   }
 
   @GetMapping("/subscribedCommunities")
-  public List<Community> getSubscribedCommunities(){
-    throw new UnsupportedOperationException();
+  public List<String> getSubscribedCommunities(){
+    return communityService.getSubscribedCommunities();
   }
 
 }

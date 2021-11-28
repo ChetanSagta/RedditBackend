@@ -1,12 +1,22 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Comment {
 
   int postId;
@@ -17,94 +27,24 @@ public class Comment {
   String commentMsg;
   int likes;
   int dislikes;
-  String commentedBy;
+  @ManyToOne
+  @JoinColumn(name = "person_name")
+  @CreatedBy
+  Person person;
+  @CreatedDate
   Date commentedOn;
   Date updatedOn;
 
-  public Comment(int postId, int parentCommentId, int commentId, String commentMsg, int likes,
-                 int dislikes, String commentedBy, Date commentedOn, Date updatedOn) {
-    this.postId = postId;
-    this.parentCommentId = parentCommentId;
-    this.commentId = commentId;
-    this.commentMsg = commentMsg;
-    this.likes = likes;
-    this.dislikes = dislikes;
-    this.commentedBy = commentedBy;
-    this.commentedOn = commentedOn;
-    this.updatedOn = updatedOn;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Comment comment = (Comment) o;
+    return Objects.equals(commentId, comment.commentId);
   }
 
-  public Comment(){}
-
-  public int getPostId() {
-    return postId;
-  }
-
-  public void setPostId(int postId) {
-    this.postId = postId;
-  }
-
-  public int getParentCommentId() {
-    return parentCommentId;
-  }
-
-  public void setParentCommentId(int parentCommentId) {
-    this.parentCommentId = parentCommentId;
-  }
-
-  public int getCommentId() {
-    return commentId;
-  }
-
-  public void setCommentId(int commentId) {
-    this.commentId = commentId;
-  }
-
-  public String getCommentMsg() {
-    return commentMsg;
-  }
-
-  public void setCommentMsg(String commentMsg) {
-    this.commentMsg = commentMsg;
-  }
-
-  public int getLikes() {
-    return likes;
-  }
-
-  public void setLikes(int likes) {
-    this.likes = likes;
-  }
-
-  public int getDislikes() {
-    return dislikes;
-  }
-
-  public void setDislikes(int dislikes) {
-    this.dislikes = dislikes;
-  }
-
-  public String getCommentedBy() {
-    return commentedBy;
-  }
-
-  public void setCommentedBy(String commentedBy) {
-    this.commentedBy = commentedBy;
-  }
-
-  public Date getCommentedOn() {
-    return commentedOn;
-  }
-
-  public void setCommentedOn(Date commentedOn) {
-    this.commentedOn = commentedOn;
-  }
-
-  public Date getUpdatedOn() {
-    return updatedOn;
-  }
-
-  public void setUpdatedOn(Date updatedOn) {
-    this.updatedOn = updatedOn;
+  @Override
+  public int hashCode() {
+    return 0;
   }
 }
